@@ -1,0 +1,42 @@
+<div class="row" ng-show="$root.token">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-lg-9">
+            <div class="panel panel-primary" style="height: 750px;">
+              <div class="panel-heading">#General</div>
+              <div class="panel-body">
+                <div class="alert alert-info" ng-repeat="message in messages">
+                  <strong>{{message.username}}: </strong> {{message.text}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="panel panel-primary">
+              <div class="panel-heading">Users in channel</div>
+              <div class="panel-body">
+                <ul>
+                  <li ng-repeat="user in users">{{user.info.username}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-9">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-lg-1 control-label">Message:</label>
+                <div class="col-lg-11">
+                  <input type="text" class="form-control" ng-keypress="send($event)" ng-model="messageBox">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

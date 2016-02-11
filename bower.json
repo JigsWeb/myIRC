@@ -1,0 +1,18 @@
+{
+  "name": "javascript_avance_my_irc",
+  "description": "IRC platform",
+  "main": "app.js",
+  "authors": [
+    "moynet_a"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
