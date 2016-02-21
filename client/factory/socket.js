@@ -1,5 +1,5 @@
-myIRC.factory('Socket', function ($rootScope) {
-  var socket = io();
+myIRC.factory('Socket', function ($rootScope,Security) {
+  var socket = io.connect('',{query: {'authorization': Security.getToken()}});
   return {
     on: function (eventName, callback) {
       socket.on(eventName, function () {

@@ -14,5 +14,15 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "angular-bootstrap": "^1.1.2",
+    "angular-route": "^1.5.0",
+    "angular-socket-io": "^0.7.0",
+    "angular-ui-notification": "^0.1.0",
+    "angular": "^1.5.0",
+    "bootstrap": "^3.3.6",
+    "skrollr": "^0.6.30",
+    "bootflat": "2.0.4"
+  }
 }

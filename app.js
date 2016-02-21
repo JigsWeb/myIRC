@@ -33,28 +33,7 @@ require('./server/route')(app);
 
 /* IO Event */
 
-var clients = {};
-
-io.on('connection', function(socket){
-  clients[socket.id] = {'socket':socket};
-
-  socket.on('send:message', function(msg){
-    io.emit('send:message', {
-      'username': clients[socket.id].info.username,
-      'text': msg
-    });
-  });
-
-  socket.on('user:connect', function(user){
-    clients[socket.id] = {'info': user};
-    io.emit('user:connect', clients);
-  });
-
-  socket.on('disconnect', function(){
-    delete clients[socket.id];
-    io.emit('user:disconnect', clients)
-  })
-});
+require("./server/socket")(io);
 
 /* Run server */
 

@@ -1,6 +1,7 @@
 'use strict';
 
 var jwt = require('jsonwebtoken');
+var User = require('../models/user');
 
 module.exports = {
   create: function(user, next){
@@ -10,10 +11,17 @@ module.exports = {
         return next(user);
       });
   },
-  check: function(user, token, next){
-    User.findOne({'username': user.username, 'token':token},function(err,doc){
-      if(err) return next(false);
-      return next(true);
-    })
+  check: function(req, next){
+    var token = req.header ? req.header('Authorization') : req.authorization;
+
+    if(token){
+      User.findOne({'token':token},function(err,user){
+        if(err) return next(false);
+        return next(user);
+      })
+    }
+    else{
+      return next(false);
+    }
   }
 }

@@ -2,6 +2,7 @@ myIRC.controller('AuthCtrl', function($scope, $location, User, Auth, Security, N
   $scope.register = function(){
     User.create($scope.register.user)
       .success(function(data){
+        $scope.register.user = {};
         Notification.success("You can now sign in!");
       })
       .error(function(data){

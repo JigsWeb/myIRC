@@ -4,13 +4,8 @@ myIRC.config(function($routeProvider){
     templateUrl: 'views/main.html',
     // controller: 'PhoneListCtrl'
   }).
-  when('/register', {
-    templateUrl: 'views/register.html',
-    // controller: 'PhoneListCtrl'
-  }).
-  when('/login', {
-    templateUrl: 'views/login.html',
-    // controller: 'PhoneListCtrl'
+  when('/admin', {
+    templateUrl: 'views/admin.html',
   }).
   otherwise({
     redirectTo: '/'

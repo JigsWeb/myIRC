@@ -4,11 +4,19 @@
       <div class="panel-body">
         <div class="row">
           <div class="col-lg-9">
-            <div class="panel panel-primary" style="height: 750px;">
-              <div class="panel-heading">#General</div>
+            <div class="panel panel-primary" style="height: 750px;overflow-y:scroll">
+              <div class="panel-heading">#{{currentChannel}}</div>
               <div class="panel-body">
-                <div class="alert alert-info" ng-repeat="message in messages">
-                  <strong>{{message.username}}: </strong> {{message.text}}
+                <div class="alert alert-info" ng-repeat="message in messages[currentChannel]" style="word-break:break-all">
+                  <span ng-hide="message.cmd">
+                    <strong>{{message.username}}: </strong> {{message.text}}
+                  </span>
+                  <span ng-show="message.cmd">
+                    <help-cmd ng-if="message.cmd=='help'"></help-cmd>
+                    <users-cmd ng-if="message.cmd=='users'" users="message.var"></users-cmd>
+                    <list-cmd ng-if="message.cmd=='list'" channels="message.var"></list-cmd>
+                    <msg-cmd ng-if="message.cmd=='msg'" username="message.var.username" text="message.var.text"></msg-cmd>
+                  </span>
                 </div>
               </div>
             </div>
@@ -17,9 +25,11 @@
             <div class="panel panel-primary">
               <div class="panel-heading">Users in channel</div>
               <div class="panel-body">
-                <ul>
-                  <li ng-repeat="user in users">{{user.info.username}}</li>
-                </ul>
+                <p ng-repeat="user in users[currentChannel]">
+                  <span class="glyphicon glyphicon-star" aria-hidden="true" ng-show="{{user.info.admin}}"></span>
+                  <span class="glyphicon glyphicon-user" aria-hidden="true" ng-hide="{{user.info.admin}}"></span>
+                  {{user.info.username}}
+                </p>
               </div>
             </div>
           </div>
@@ -35,6 +45,65 @@
               </div>
             </form>
           </div>
+          <div class="col-lg-3">
+            <button id="channelOpt" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Channel <span class="caret"></span></button>
+            <ul class="dropdown-menu" aria-labelledby="channelOpt">
+              <li><a data-toggle="modal" data-target="#listChannel">List</a></li>
+              <li><a data-toggle="modal" data-target="#createChannel">Create</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-9">
+            <span class="label label-info" style="cursor: pointer;margin-right:10px" ng-repeat="c in inChannels" ng-click="change(c.name)">#{{c.name}}
+              <i class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="leave($index)"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="createChannel" tabindex="-1" role="dialog" aria-labelledby="createChannelLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="createChannelLabel">Create a channel</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <form class="form-horizontal">
+            <label class="col-lg-2 control-label">Name</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" ng-model="create.channel.name"/>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="createChannel(create.channel)">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="listChannel" tabindex="-1" role="dialog" aria-labelledby="listChannelLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="listChannelLabel">Channel's list</h4>
+      </div>
+      <div class="modal-body">
+        <div class="list-group">
+          <a class="list-group-item" ng-repeat="channel in channels">{{channel.name}}
+            <span class="pull-right">
+              <span class="glyphicon glyphicon-flash" data-dismiss="modal" ng-click="join(channel.name)" style="cursor: pointer"></span>
+            </span>
+          </a>
         </div>
       </div>
     </div>

@@ -1,0 +1,52 @@
+<div class="col-lg-3">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Edit a channel</div>
+    <div class="panel-body">
+      <form class="form-horizontal" role="form" ng-submit="channel.update()">
+        <div class="form-group">
+          <label class="control-label col-lg-3" for="name">Name:</label>
+          <div class="col-lg-9">
+            <input type="text" class="form-control" id="name" ng-model="channel.edit.name">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success btn-block">Update</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="col-lg-5">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Channel's list</div>
+    <div class="panel-body">
+      <table class="table table-hover">
+        <tr>
+          <th>Name</th>
+          <th colspan="3"></th>
+        </tr>
+        <tr ng-repeat="c in channel.list">
+          <td>{{c.name}}</td>
+          <td><button class="btn btn-success" ng-click="channel.messages.action($index)">Show messages</button></td>
+          <td><button class="btn btn-warning" ng-click="channel.edit.action($index)">Edit</button></td>
+          <td><button class="btn btn-danger" ng-click="channel.destroy($index)">Remove</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="col-lg-4" ng-show="channel.messages.list.length">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Message list</div>
+    <div class="panel-body">
+      <table class="table table-hover">
+        <tr>
+          <th>By</th>
+          <th>Text</th>
+        </tr>
+        <tr ng-repeat="m in channel.messages.list">
+          <td>{{m.username}}</td>
+          <td style="word-break:break-all">{{m.text}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

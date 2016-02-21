@@ -6,13 +6,13 @@ myIRC.service('User',function($http,$rootScope){
       return $http.post(url+"user/create",user);
     },
     update: function(user){
-      return $http.put(url+"user/"+user.id+"/update",user);
+      return $http.put(url+"user/update",user);
     },
     read: function(user){
-      return $http.put(url+"user/"+user.id+"/read",user);
+      return $http.get(url+"user/read",user);
     },
     destroy: function(user){
-      return $http.post(url+"user/"+user.id+"/update",user);
+      return $http.post(url+"user/update",user);
     }
   };
 })

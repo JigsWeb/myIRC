@@ -12,6 +12,10 @@ myIRC.config(function($routeProvider){
     templateUrl: 'views/chat.html',
     controller: 'ChatCtrl'
   }).
+  when('/admin', {
+    templateUrl: 'views/admin.html',
+    controller: 'AdminCtrl'
+  }).
   otherwise({
     redirectTo: '/'
   });
@@ -28,3 +32,5 @@ myIRC.config(function(NotificationProvider) {
     horizontalSpacing: 15,
   });
 });
+
+/* HTTP INTERCEPTOR */

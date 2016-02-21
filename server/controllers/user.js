@@ -37,12 +37,32 @@ module.exports = {
     });
   },
 
-  update: function(req, res){
-    params = req.body;
-    User.findOne({'_id':params._id},params,function(err,doc){
-      if(err) return res.status(400).json({'error':'Error in processing update.'})
-      return res.status(200).json(doc);
-    })
+  update: function(req, res, user){
+    var params = req.body;
+    if(params.password){
+      if(bcrypt.compareSync(params.password.old, user.password)){
+        if(params.password.new == params.password.confirm){
+          user.password = bcrypt.hashSync(params.password.new);
+          user.save(function(err,doc){
+            if(err) return res.status(400).json(err);
+            return res.status(200).json(doc);
+          })
+        }
+        else{
+          return res.status(400).json({'error':'New and confirm password does not match.'})
+        }
+      }
+      else{
+        return res.status(400).json({'error':'Your old password is incorrect.'})
+      }
+    }
+    else if (params.username) {
+      user.username = params.username;
+      user.save(function(err,doc){
+        if(err) return res.status(400).json(err);
+        return res.status(200).json(doc);
+      })
+    }
   },
 
   destroy: function(req, res){

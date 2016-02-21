@@ -3,23 +3,29 @@
   <head>
     <meta charset="utf-8">
     <title>myIRC</title>
-    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="bootflat/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootflat/bootflat/css/bootflat.css">
     <link rel="stylesheet" href="angular-ui-notification/dist/angular-ui-notification.min.css">
     <script src="socket.io/socket.io.js"></script>
-    <!-- <script>
-      var socket = io();
-    </script> -->
-    <!-- <script src="angular-socket-io/mock/socket-io.js"></script> -->
     <script src='angular/angular.js'></script>
     <script src="angular-route/angular-route.min.js"></script>
     <script src='angular-bootstrap/ui-bootstrap-tpls.js'></script>
     <script src='app.js'></script>
+    <script src='directives/msgCmd.js'></script>
+    <script src='directives/helpCmd.js'></script>
+    <script src='directives/usersCmd.js'></script>
+    <script src='directives/listCmd.js'></script>
+    <script src='factory/interceptor.js'></script>
     <script src="factory/socket.js"></script>
     <script src="factory/security.js"></script>
+    <script src="services/channel.js"></script>
+    <script src="factory/command.js"></script>
     <script src="services/user.js"></script>
     <script src="services/auth.js"></script>
+    <script src="controllers/user.js"></script>
     <script src="controllers/auth.js"></script>
     <script src="controllers/chat.js"></script>
+    <script src="controllers/admin.js"></script>
   </head>
   <body ng-app="myIRC">
     <nav class="navbar navbar-default navbar-static-top">
@@ -36,7 +42,16 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#/">Home</a></li>
-            <li ng-show="$root.token"><a href="#/logout">Logout</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right" ng-show="$root.username">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$root.username}} <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a data-toggle="modal" data-target="#editProfil">Edit my profile</a></li>
+                <li><a href="#/admin">Administration</a></li>
+                <li><a href="#/logout">Logout</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
@@ -45,8 +60,65 @@
       <div ng-view></div>
     </div>
 
+    <div ng-show="$root.username" ng-controller="UserCtrl" class="modal fade" id="editProfil" tabindex="-1" role="dialog" aria-labelledby="editProfilLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editProfilLabel">Edit my profile</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <form ng-submit="updateUsername(username)" class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Username</label>
+                  <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="username">
+                  </div>
+                  <div class="col-lg-2">
+                    <button type="submit" class="btn btn-success">Update username</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="row">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Old password</label>
+                  <div class="col-lg-8">
+                    <input type="password" class="form-control" ng-model="password.old">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">New password</label>
+                  <div class="col-lg-8">
+                    <input type="password" class="form-control" ng-model="password.new">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Confirm</label>
+                  <div class="col-lg-8">
+                    <input type="password" class="form-control" ng-model="password.confirm">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-offset-3 col-lg-9">
+                    <button ng-click="updatePassword(password)" class="btn btn-success">Update password</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src='jquery/dist/jquery.min.js'></script>
-    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bootflat/js/bootstrap.min.js"></script>
+    <script src="bootflat/bootflat/js/icheck.min.js"></script>
+    <script src="bootflat/bootflat/js/jquery.fs.selecter.min.js"></script>
+    <script src="bootflat/bootflat/js/jquery.fs.stepper.min.js"></script>
+    <!-- <script src="bootstrap/dist/js/bootstrap.min.js"></script> -->
     <script src="angular-ui-notification/dist/angular-ui-notification.min.js"></script>
   </body>
 </html>
