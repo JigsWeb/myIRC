@@ -5,6 +5,13 @@ var User = require('../models/user'),
 
 
 module.exports = {
+  all: function(req,res){
+    User.find({},function(err,users){
+      if(err) return res.status(400).json({'error':err});
+      return res.status(200).json(users);
+    });
+  },
+
   create: function(req, res){
     if(req.body.password && req.body.password == req.body.password_confirm){
       var userParams = req.body;
@@ -66,6 +73,16 @@ module.exports = {
   },
 
   destroy: function(req, res){
-
+    User.findByIdAndRemove(req.user_id, function(err,doc){
+      if(err) return res.status(400).json({'error':err});
+      return res.status(200).json(doc);
+    });
   },
+
+  updateAdmin: function(req, res){
+    User.findByIdAndUpdate(req.user_id,req.body,function(err,doc){
+      if(err) return res.status(400).json({'error':err});
+      return res.status(200).json(doc);
+    });
+  }
 }

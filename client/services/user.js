@@ -1,18 +1,21 @@
 myIRC.service('User',function($http,$rootScope){
-  var url = "http://localhost:3000/!/";
+  var url = "http://localhost:3000/!/user";
 
   return {
     create: function(user){
-      return $http.post(url+"user/create",user);
+      return $http.post(url+"/create",user);
     },
     update: function(user){
-      return $http.put(url+"user/update",user);
+      return $http.put(url+"/update",user);
     },
-    read: function(user){
-      return $http.get(url+"user/read",user);
+    all: function(){
+      return $http.get(url);
     },
-    destroy: function(user){
-      return $http.post(url+"user/update",user);
+    destroy: function(id){
+      return $http.delete(url+"/"+id+"/destroy");
+    },
+    updateAdmin: function(id,user){
+      return $http.put(url+"/"+id+"/update",user);
     }
   };
 })

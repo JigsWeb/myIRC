@@ -12,8 +12,12 @@ myIRC.config(function($routeProvider){
     templateUrl: 'views/chat.html',
     controller: 'ChatCtrl'
   }).
-  when('/admin', {
-    templateUrl: 'views/admin.html',
+  when('/admin/channel', {
+    templateUrl: 'views/admin/channel.html',
+    controller: 'AdminCtrl'
+  }).
+  when('/admin/user', {
+    templateUrl: 'views/admin/user.html',
     controller: 'AdminCtrl'
   }).
   otherwise({

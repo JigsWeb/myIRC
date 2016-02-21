@@ -25,6 +25,11 @@ module.exports = function(app){
     next();
   });
 
+  app.param('user_id', function(req, res, next, user_id) {
+    req.user_id = user_id;
+    next();
+  });
+
 
   app.get('/', function (req, res) {
     res.sendFile(process.cwd()+"/index.html");
@@ -38,6 +43,10 @@ module.exports = function(app){
     Channel.create(req, res);
   });
 
+  app.get('/!/user', function (req, res) {
+    User.all(req, res);
+  });
+
   app.get('/!/channel', function (req, res) {
     Channel.all(req, res);
   });
@@ -49,6 +58,20 @@ module.exports = function(app){
   app.put('/!/user/update', function(req, res){
     Token.check(req,function(user){
       if(user) User.update(req, res, user);
+      else return res.status(403);
+    });
+  });
+
+  app.put('/!/user/:user_id/update',function(req,res){
+    Token.check(req,function(user){
+      if(user) User.updateAdmin(req, res);
+      else return res.status(403);
+    });
+  });
+
+  app.delete('/!/user/:user_id/destroy',function(req,res){
+    Token.check(req,function(user){
+      if(user) User.destroy(req, res);
       else return res.status(403);
     });
   });
